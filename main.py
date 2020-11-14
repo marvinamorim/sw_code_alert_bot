@@ -1,16 +1,14 @@
 from time import sleep
-from os import environ
 
 
 import dataset
 import schedule
 import requests
-from pprint import pprint
 
 from config import settings
 from telegram import send_code
 
-db = dataset.connect(environ["DATABASE_URL"])
+db = dataset.connect(settings.DATABASE_URL)
 table = db[settings.CODES]
 
 
@@ -33,7 +31,8 @@ def find_nodes():
 
 
 if __name__ == "__main__":
-    schedule.every().minute.do(find_nodes)
+    find_nodes()
+    schedule.every(5).minutes.do(find_nodes)
     while True:
         schedule.run_pending()
         sleep(1)

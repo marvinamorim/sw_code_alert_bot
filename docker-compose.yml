@@ -1,0 +1,30 @@
+version: '3'
+services:
+  sw_code_alert_telegram:
+    image: python:3-slim
+    container_name: sw_code_alert_telegram
+    volumes:
+      - .:/home/volume
+    restart: on-failure
+    command: >
+      bash -c "cd /home/volume &&
+      pip install --upgrade pip && 
+      pip install -r ./requirements.txt &&
+      python telegram.py"
+    tty: true
+    environment:
+      TZ: "America/Sao_Paulo"
+  sw_code_alert_main:
+    image: python:3-slim
+    container_name: sw_code_alert_main
+    volumes:
+      - .:/home/volume
+    restart: on-failure
+    command: >
+      bash -c "cd /home/volume &&
+      pip install --upgrade pip && 
+      pip install -r ./requirements.txt &&
+      python main.py"
+    tty: true
+    environment:
+      TZ: "America/Sao_Paulo"
